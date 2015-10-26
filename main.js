@@ -2,7 +2,7 @@
 
 var scope = {};
 //array of classes you want to link data-binding to
-var classNamesArray = ['name'];
+var classNamesArray = ['name', 'age'];
 
 // ** functions ** //
 
@@ -15,7 +15,6 @@ function getElements(array){
         var elem = document.getElementsByClassName(array[i]);
         elements.push(elem);
     }
-    console.log(elements);
     return elements;
 }
 
@@ -44,11 +43,20 @@ function domBinding(array) {
     }
 }
 
-function modelBinding(elements) {
+domBinding(domElements[0]);
 
+function modelBinding(elements) {
+        for (var i = 0; i < elements.length; i++) {
+            Object.defineProperty(scope, classNamesArray[i], {
+                set: function(newValue) {
+                    for (var index in elements) {
+                        elements[index].value = newValue;
+                    }
+                }
+            });
+        }
 }
 
-domBinding(domElements);
-
+modelBinding(domElements[0]);
 
 
